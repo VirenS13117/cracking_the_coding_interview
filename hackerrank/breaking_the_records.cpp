@@ -5,7 +5,7 @@ Points scored in the first game establish her record for the season, and she beg
 
 For example, assume her scores for the season are represented in the array . Scores are in the same order as the games played. She would tabulate her results as follows:
 
-                                 Count
+                                Count
 Game  Score  Minimum  Maximum   Min Max
  0      12     12       12       0   0
  1      24     12       24       0   1
