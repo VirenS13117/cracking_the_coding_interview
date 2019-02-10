@@ -26,12 +26,9 @@ Each of the next t pairs of lines are as follows:
 - The first line contains an integer , the number of people in the queue 
 - The second line has n space-separated integers describing the final state of the queue.
 
-
 Output Format
-
 Print an integer denoting the minimum number of bribes needed to get the queue into its final state.
 Print Too chaotic if the state is invalid, i.e. it requires a person to have bribed more than  people.
-
 
 Solution : The problem reduces to finding the numbers greater than a particular element on its left side.
 Since whenever an element is swapped by another element(call it swapping element) in its right 
