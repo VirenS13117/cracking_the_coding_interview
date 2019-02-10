@@ -2,6 +2,7 @@
 using namespace std;
 
 int counter = 0;
+
 void permutations(string input_string, string current_string){
 	if(current_string.size()==input_string.size()){
 		cout<<counter++<<" "<<current_string<<"\n";		
