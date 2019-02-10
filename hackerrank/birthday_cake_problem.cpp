@@ -16,7 +16,7 @@ The second line contains n space-separated integers, where each integer i descri
 
 Constraints
 1<=n<=10^5
-1<=ar[i]<=10^7
+1<=a[i]<=10^7
 
 Output Format
 
