@@ -1,9 +1,7 @@
 /*
 Count inversions with merge sort
 */
-
 #include <bits/stdc++.h>
-
 using namespace std;
 
 vector<int> merge_arrays(vector<int>first_array, vector<int>second_array, int &sum_swaps){
