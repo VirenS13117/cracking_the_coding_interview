@@ -29,7 +29,6 @@ Output Format
 
 Print an integer denoting the maximum distance that an astronaut in a Flatland city would need to travel 
 to reach the nearest space station.
-
 Sample Input 0
 5 2
 0 4
