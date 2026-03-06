@@ -11,6 +11,9 @@ WORKSPACE_PATH = Path(__file__).resolve().parents[1]
 LEETCODE_DIR = WORKSPACE_PATH / "leetcode"
 LEETCODE_DIR.mkdir(exist_ok=True)
 
+# GitHub Remote
+GITHUB_REPO_URL = "https://github.com/VirenS13117/cracking_the_coding_interview.git"
+
 # Anthropic Client using the key from openclaw.json
 client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
@@ -64,7 +67,7 @@ def commit_and_push(file_path, problem_name):
         repo = Repo(WORKSPACE_PATH)  # .git is at workspace root
         repo.git.add(file_path)
         repo.index.commit(f"Add LeetCode daily note: {problem_name}")
-        origin = repo.remote(name="https://github.com/VirenS13117/cracking_the_coding_interview")
+        origin = repo.remote(name="origin")
         origin.push()
         return True
     except Exception as e:
