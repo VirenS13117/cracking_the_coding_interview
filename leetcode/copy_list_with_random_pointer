@@ -1,0 +1,145 @@
+# Copy List with Random Pointer
+
+**Topic:** Linked List  
+**Difficulty:** Medium  
+**LeetCode URL:** https://leetcode.com/problems/copy-list-with-random-pointer/
+
+---
+
+## Problem Statement
+
+A linked list of length `n` is given such that each node contains an additional **random pointer**, which could point to any node in the list, or `null`.
+
+Construct a **deep copy** of the list. The deep copy should consist of exactly `n` **brand new** nodes, where each new node has its value set to the value of its corresponding original node. Both the `next` and `random` pointer of the new nodes should point to new nodes in the copied list such that the pointers in the original list and copied list represent the same list state. **None of the pointers in the new list should point to nodes in the original list.**
+
+Return the head of the copied linked list.
+
+---
+
+## Examples
+
+**Example 1:**
+```
+Input:  head = [[7,null],[13,0],[11,4],[10,2],[1,0]]
+Output: [[7,null],[13,0],[11,4],[10,2],[1,0]]
+```
+Each pair `[val, random_index]` represents the node value and the index of the node the random pointer points to.
+
+**Example 2:**
+```
+Input:  head = [[1,1],[2,1]]
+Output: [[1,1],[2,1]]
+```
+
+**Example 3:**
+```
+Input:  head = [[3,null],[3,0],[3,null]]
+Output: [[3,null],[3,0],[3,null]]
+```
+
+---
+
+## Constraints
+
+- `0 <= n <= 1000`
+- `-10^4 <= Node.val <= 10^4`
+- `Node.random` is `null` or points to some node in the linked list.
+
+---
+
+## Approaches
+
+### Approach 1: HashMap (Old Node → New Node)
+**Time:** O(n) | **Space:** O(n)
+
+Use a dictionary to map each original node to its newly created copy. Then iterate again to wire up `next` and `random` pointers.
+
+```python
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        if not head:
+            return None
+
+        old_to_new = {}
+
+        # First pass: create all new nodes
+        curr = head
+        while curr:
+            old_to_new[curr] = Node(curr.val)
+            curr = curr.next
+
+        # Second pass: assign next and random pointers
+        curr = head
+        while curr:
+            if curr.next:
+                old_to_new[curr].next = old_to_new[curr.next]
+            if curr.random:
+                old_to_new[curr].random = old_to_new[curr.random]
+            curr = curr.next
+
+        return old_to_new[head]
+```
+
+---
+
+### Approach 2: Interleaving Nodes (O(1) Space)
+**Time:** O(n) | **Space:** O(1)
+
+Weave copied nodes into the original list, set random pointers, then separate the two lists.
+
+```python
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        if not head:
+            return None
+
+        # Step 1: Interleave — insert copy right after each original node
+        curr = head
+        while curr:
+            copy = Node(curr.val)
+            copy.next = curr.next
+            curr.next = copy
+            curr = copy.next
+
+        # Step 2: Assign random pointers for copies
+        curr = head
+        while curr:
+            if curr.random:
+                curr.next.random = curr.random.next
+            curr = curr.next.next
+
+        # Step 3: Separate the two lists
+        curr = head
+        copy_head = head.next
+        while curr:
+            copy = curr.next
+            curr.next = copy.next
+            if copy.next:
+                copy.next = copy.next.next
+            curr = curr.next
+
+        return copy_head
+```
+
+---
+
+## Key Insights
+
+| | HashMap | Interleaving |
+|---|---|---|
+| Time | O(n) | O(n) |
+| Space | O(n) | O(1) |
+| Simplicity | ✅ Easier to reason | ⚠️ Tricky pointer manipulation |
+
+- The **core challenge** is that `random` pointers can reference nodes not yet created.
+- The HashMap approach elegantly solves this by decoupling node creation from pointer assignment.
+- The interleaving trick uses the original list itself as a lookup structure to achieve O(1) extra space.
+
+---
+
+## Edge Cases to Consider
+
+- Empty list (`head = None`) → return `None`
+- Single node with `random` pointing to itself
+- All `random` pointers are `null`
+- Nodes where `random` points to the head or tail
